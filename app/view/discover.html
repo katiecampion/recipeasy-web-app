@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Discover | Recipeasy</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="icon" href="/favicon.ico" type="image/x-icon">
+  <link rel="stylesheet" href="style.css">
+  <script src="script.js" defer></script>
+  <script src="navbarLoader.js" defer></script>
+</head>
+<body>
+  <div id="navbar"></div>
+
+  <div class="container">
+    <h1>Discover Recipes</h1>
+
+    <div class="search-bar">
+      <input id="searchInput" type="text" placeholder="Search by title or ingredient">
+      <div class="search-actions">
+        <button id="btnTitle" type="button">Search by Title</button>
+        <button id="btnIngredient" type="button">Search by Ingredient</button>
+        <button id="btnPantry" type="button">Use My Pantry</button>
+      </div>
+    </div>
+
+    <h2>Results</h2>
+    <div id="results" class="recipe-grid"></div>
+  </div>
+
+  <!-- No inline script; bindings happen in script.js -->
+</body>
+</html>

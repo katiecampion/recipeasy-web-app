@@ -1,0 +1,311 @@
+/* ======================================================
+   MOBILE-FIRST GLOBAL RESET + BASE STYLES
+   Default styles target small screens first
+====================================================== */
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    font-family: "Inter", Arial, sans-serif;
+}
+
+body {
+    background: #faf9fe;
+    color: #222;
+    line-height: 1.4;
+}
+
+/* ======================================================
+   LAYOUT CONTAINERS (MOBILE DEFAULT)
+====================================================== */
+
+.container {
+    width: 92%;
+    margin: 24px auto;
+}
+
+/* Headings */
+h1, h2, h3, h4 {
+    margin-bottom: 14px;
+    font-weight: 600;
+    color: #3d2e68;
+}
+
+/* ======================================================
+   NAVBAR (MOBILE-FIRST)
+====================================================== */
+
+nav {
+    background: #5a3ea6;
+    padding: 14px 18px;
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+nav .logo {
+    font-size: 22px;
+    font-weight: 700;
+}
+
+nav ul {
+    list-style: none;
+    display: none; /* hidden on mobile */
+    gap: 20px;
+    align-items: center;
+}
+
+nav ul li a {
+    color: white;
+    text-decoration: none;
+    font-weight: 500;
+}
+
+nav ul li a:hover {
+    opacity: 0.75;
+}
+
+/* Hamburger menu (mobile default) */
+.hamburger {
+    display: block;
+    cursor: pointer;
+}
+
+.hamburger span {
+    display: block;
+    width: 28px;
+    height: 3px;
+    background: white;
+    margin: 5px 0;
+}
+
+/* Mobile menu */
+#mobileMenu {
+    display: none;
+    background: #5a3ea6;
+    padding: 15px;
+}
+
+#mobileMenu a {
+    display: block;
+    padding: 12px 0;
+    color: white;
+    text-decoration: none;
+}
+
+/* ======================================================
+   BUTTONS & INTERACTIVE ELEMENTS (TOUCH-FIRST)
+====================================================== */
+
+button,
+.btn {
+    width: 100%;
+    background: #6f4ccf;
+    border: none;
+    padding: 14px 18px;
+    border-radius: 10px;
+    color: white;
+    cursor: pointer;
+    font-size: 16px;
+    transition: 0.2s;
+}
+
+button:hover,
+.btn:hover {
+    background: #5534ad;
+}
+
+.btn-outline {
+    background: #fff;
+    color: #6f4ccf;
+    border: 1px solid #c8c4df;
+}
+
+.btn-outline:hover {
+    background: #f5f3ff;
+}
+
+.btn-blue {
+    background: #3d73dd;
+}
+.btn-blue:hover {
+    background: #2c5bb0;
+}
+
+.danger {
+    background: #d9534f;
+}
+.danger:hover {
+    background: #b6413e;
+}
+
+/* ======================================================
+   FORMS (MOBILE-FIRST)
+====================================================== */
+
+input,
+textarea,
+select {
+    width: 100%;
+    padding: 12px;
+    margin: 8px 0 14px 0;
+    border-radius: 8px;
+    border: 1px solid #c8c4df;
+    background: white;
+    font-size: 15px;
+}
+
+textarea {
+    min-height: 120px;
+}
+
+form {
+    margin-top: 20px;
+}
+
+/* ======================================================
+   GRID & CARDS
+====================================================== */
+
+.recipe-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 18px;
+    margin-top: 15px;
+}
+
+.recipe-card {
+    transition: transform 0.15s ease, box-shadow 0.15s ease;
+}
+
+.recipe-card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 16px rgba(0,0,0,0.12);
+}
+
+.recipe-card img {
+    width: 100%;
+    aspect-ratio: 4 / 3;
+    object-fit: cover;
+    border-radius: 10px;
+    margin-bottom: 10px;
+}
+
+.recipe-meta {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 10px;
+}
+
+.recipe-title {
+    font-size: 18px;
+    font-weight: 600;
+    color: #34285c;
+}
+
+.recipe-actions {
+    display: flex;
+    gap: 8px;
+}
+
+/* Generic card */
+.card {
+    background: white;
+    padding: 15px;
+    border-radius: 10px;
+    box-shadow: 0 3px 10px rgba(0,0,0,0.07);
+}
+
+/* ======================================================
+   PANTRY / SHOPPING ITEMS
+====================================================== */
+
+.item {
+    background: #fff;
+    padding: 12px;
+    border-radius: 8px;
+    margin-bottom: 8px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-left: 5px solid #6f4ccf;
+}
+
+/* ======================================================
+   ACCOUNT PAGE
+====================================================== */
+
+#accountBox {
+    background: white;
+    padding: 22px;
+    border-radius: 12px;
+    box-shadow: 0 3px 10px rgba(0,0,0,0.08);
+}
+
+/* ======================================================
+   TABLET BREAKPOINT
+====================================================== */
+
+@media (min-width: 768px) {
+
+    .container {
+        max-width: 720px;
+        margin: 32px auto;
+    }
+
+    button,
+    .btn {
+        width: auto;
+    }
+
+    nav ul {
+        display: flex;
+    }
+
+    .hamburger {
+        display: none;
+    }
+
+    .recipe-grid {
+        grid-template-columns: repeat(auto-fill, minmax(230px, 1fr));
+    }
+
+    .recipe-meta {
+        grid-template-columns: 1fr auto;
+        align-items: center;
+    }
+}
+
+/* ======================================================
+   DESKTOP BREAKPOINT
+====================================================== */
+
+@media (min-width: 1024px) {
+
+    .container {
+        max-width: 1000px;
+    }
+}
+
+/* ======================================================
+   SKELETON LOADING (FEEDBACK STATE)
+====================================================== */
+
+.skeleton {
+    background: linear-gradient(90deg, #eee, #f6f6f6, #eee);
+    background-size: 200% 100%;
+    animation: shine 1.2s infinite;
+    border-radius: 10px;
+}
+
+@keyframes shine {
+    0% { background-position: 200% 0; }
+    100% { background-position: -200% 0; }
+}
+
+/* Utility */
+.hidden {
+    display: none !important;
+}

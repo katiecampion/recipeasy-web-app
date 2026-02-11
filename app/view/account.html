@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>My Account</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="icon" href="/favicon.ico" type="image/x-icon">
+    <script src="script.js" defer></script>
+    <script src="navbarLoader.js" defer></script>
+    <script src="account.bind.js" defer></script>
+</head>
+<body>
+<div id="navbar"></div>
+
+<div class="container" id="accountBox">
+    <h2>My Account</h2>
+    <p><strong>Email:</strong> <span id="accEmail"></span></p>
+
+    <h3>Update Account</h3>
+    <input id="newEmail" placeholder="New Email">
+    <input id="newPass" type="password" placeholder="New Password">
+    <button id="saveBtn" type="button">Save</button>
+
+    <hr>
+    <button id="delBtn" type="button" class="danger">Delete Account</button>
+</div>
+</body>
+</html>

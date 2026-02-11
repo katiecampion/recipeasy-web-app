@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>My Pantry | Recipeasy</title>
+  <meta name="viewport" content="width=device-width,initial-scale=1.0" />
+  <link rel="stylesheet" href="css/base.css">
+  <link rel="stylesheet" href="css/components.css">
+  <link rel="stylesheet" href="css/navbar.css">
+  <link rel="icon" href="/favicon.ico" type="image/x-icon">
+</head>
+<body>
+  <div id="navbar"></div>
+
+  <div class="page" style="max-width:900px;">
+    <h1>My Pantry</h1>
+
+    <div id="authGate" class="section-block" style="display:none;">
+      <p>You are not logged in.</p>
+      <p><a class="btn" href="/login.html">Login</a></p>
+    </div>
+
+    <div id="pantryApp" style="display:none;">
+      <form id="addForm" class="section-block" style="display:flex; gap:10px; align-items:end; flex-wrap:wrap;">
+        <div>
+          <label class="visually-hidden" for="name">Item</label>
+          <input id="name" placeholder="e.g. Chicken" required>
+        </div>
+        <div>
+          <label class="visually-hidden" for="qty">Qty</label>
+          <input id="qty" placeholder="Qty (e.g. 2)">
+        </div>
+        <div>
+          <label class="visually-hidden" for="unit">Unit</label>
+          <select id="unit">
+            <option value="">Unit</option>
+            <option>pcs</option>
+            <option>g</option>
+            <option>kg</option>
+            <option>ml</option>
+            <option>l</option>
+            <option>tsp</option>
+            <option>tbsp</option>
+            <option>cup</option>
+          </select>
+        </div>
+        <button class="btn" type="submit">Add</button>
+      </form>
+
+      <div class="section-block">
+        <div style="display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap;">
+          <h2 style="margin:0;">Items</h2>
+          <input id="filter" placeholder="Filter..." style="padding:8px 10px;border:1px solid var(--border);border-radius:6px;">
+        </div>
+        <div id="list" style="margin-top:12px;"></div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // Navbar
+    fetch("navbar.html").then(r=>r.text()).then(h=>document.getElementById("navbar").innerHTML=h).catch(()=>{});
+
+    const authGate = document.getElementById('authGate');
+    const app = document.getElementById('pantryApp');
+    const listEl = document.getElementById('list');
+
+    // Auth check
+    (async function init(){
+      try {
+        const me = await (await fetch('/auth/me', { credentials:'same-origin' })).json();
+        if (!me.authenticated) {
+          authGate.style.display = '';
+          return;
+        }
+        app.style.display = '';
+        load();
+      } catch { authGate.style.display = ''; }
+    })();
+
+    function rowTemplate(item){
+      return `
+        <div class="recipe-card" style="display:grid;grid-template-columns:1fr 160px 120px 100px;gap:10px;align-items:center;margin-bottom:10px;padding:12px;">
+          <div>
+            <strong>${item.name}</strong>
+          </div>
+          <div>
+            <input data-id="${item.item_id}" data-k="quantity" value="${item.quantity ?? ''}" placeholder="Qty" style="width:100%;padding:8px;border:1px solid var(--border);border-radius:6px;background:#fff;">
+          </div>
+          <div>
+            <select data-id="${item.item_id}" data-k="unit" style="width:100%;padding:8px;border:1px solid var(--border);border-radius:6px;background:#fff;">
+              ${['','pcs','g','kg','ml','l','tsp','tbsp','cup'].map(u=>`<option ${u===(item.unit||'')?'selected':''}>${u}</option>`).join('')}
+            </select>
+          </div>
+          <div style="display:flex;gap:8px;justify-content:flex-end;">
+            <button class="btn btn-outline" data-act="save" data-id="${item.item_id}">Save</button>
+            <button class="btn btn-outline" data-act="del" data-id="${item.item_id}">Delete</button>
+          </div>
+        </div>
+      `;
+    }
+
+    async function load(){
+      listEl.innerHTML = '<p>Loading...</p>';
+      try {
+        const res = await fetch('/pantry', { credentials:'same-origin' });
+        const items = await res.json();
+        render(items);
+      } catch {
+        listEl.innerHTML = '<p>Failed to load.</p>';
+      }
+    }
+
+    function render(items){
+      const filterInput = document.getElementById('filter');
+      const term = (filterInput.value||'').toLowerCase();
+      const view = items.filter(i => i.name.toLowerCase().includes(term));
+      if (!view.length){
+        listEl.innerHTML = '<div class="empty">No items.</div>';
+        return;
+      }
+      listEl.innerHTML = view.map(rowTemplate).join('');
+      // Attach handlers
+      listEl.querySelectorAll('button[data-act="save"]').forEach(btn=>{
+        btn.addEventListener('click', async ()=>{
+          const id = btn.dataset.id;
+          const qty = listEl.querySelector(`input[data-id="${id}"][data-k="quantity"]`)?.value || '';
+          const unit = listEl.querySelector(`select[data-id="${id}"][data-k="unit"]`)?.value || '';
+          btn.disabled = true;
+          try {
+            const r = await fetch(`/pantry/${id}`, {
+              method:'PUT',
+              headers:{ 'Content-Type':'application/json' },
+              credentials:'same-origin',
+              body: JSON.stringify({ quantity: qty, unit })
+            });
+            if (!r.ok) throw new Error();
+            await load();
+          } catch { btn.disabled = false; }
+        });
+      });
+      listEl.querySelectorAll('button[data-act="del"]').forEach(btn=>{
+        btn.addEventListener('click', async ()=>{
+          if (!confirm('Delete this item?')) return;
+          const id = btn.dataset.id;
+          btn.disabled = true;
+          try {
+            const r = await fetch(`/pantry/${id}`, { method:'DELETE', credentials:'same-origin' });
+            if (!r.ok) throw new Error();
+            await load();
+          } catch { btn.disabled = false; }
+        });
+      });
+    }
+
+    // Add item
+    document.getElementById('addForm').addEventListener('submit', async (e)=>{
+      e.preventDefault();
+      const name = document.getElementById('name').value.trim();
+      const quantity = document.getElementById('qty').value.trim();
+      const unit = document.getElementById('unit').value.trim();
+      if (!name) return;
+      try {
+        const r = await fetch('/pantry', {
+          method:'POST',
+          headers:{ 'Content-Type':'application/json' },
+          credentials:'same-origin',
+          body: JSON.stringify({ name, quantity, unit })
+        });
+        if (!r.ok) throw new Error();
+        document.getElementById('name').value = '';
+        document.getElementById('qty').value = '';
+        document.getElementById('unit').value = '';
+        await load();
+      } catch {
+        alert('Failed to add item.');
+      }
+    });
+
+    // Filter
+    document.getElementById('filter').addEventListener('input', async ()=>{
+      try {
+        const res = await fetch('/pantry', { credentials:'same-origin' });
+        render(await res.json());
+      } catch {}
+    });
+  </script>
+</body>
+</html>

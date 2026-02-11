@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Pantry</title>
+  <link rel="stylesheet" href="style.css">
+  <script src="script.js" defer></script>
+  <script src="navbarLoader.js" defer></script>
+  <script src="pantry.bind.js" defer></script>
+</head>
+<body>
+  <div id="navbar"></div>
+  <div class="container">
+    <h2>My Pantry</h2>
+    <form id="pantryForm" style="margin-bottom:14px;">
+      <input id="pantryIngredient" placeholder="Ingredient name" required>
+      <input id="pantryQuantity" placeholder="Quantity">
+      <button type="submit" class="btn">Add</button>
+    </form>
+    <div id="pantryBox" class="list"></div>
+  </div>
+  <script>document.addEventListener('DOMContentLoaded', initPantry);</script>
+</body>
+</html>

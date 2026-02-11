@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Login</title>
+
+  <link rel="stylesheet" href="style.css">
+  <link rel="icon" href="/favicon.ico" type="image/x-icon">
+
+  <!-- JS loaded via defer (CSP-safe) -->
+  <script src="script.js" defer></script>
+  <script src="login.bind.js" defer></script>
+  <script src="navbarLoader.js" defer></script>
+</head>
+
+<body onload="initLogin()">
+  <div id="navbar"></div>
+
+  <div class="container">
+    <h2>Login</h2>
+
+    <form id="loginForm">
+      <label for="loginEmail">Email</label>
+      <input
+        type="email"
+        id="loginEmail"
+        required
+        autocomplete="email"
+      >
+
+      <label for="loginPassword">Password</label>
+      <input
+        type="password"
+        id="loginPassword"
+        required
+        autocomplete="current-password"
+      >
+
+      <button type="submit" class="btn">Login</button>
+    </form>
+  </div>
+</body>
+</html>

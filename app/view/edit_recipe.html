@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Edit Recipe</title>
+
+  <link rel="stylesheet" href="style.css">
+  <link rel="icon" href="/favicon.ico" type="image/x-icon">
+
+  <!-- CSP-safe scripts -->
+  <script src="script.js" defer></script>
+  <script src="navbarLoader.js" defer></script>
+  <script src="edit_recipe.bind.js" defer></script>
+</head>
+
+<body>
+  <div id="navbar"></div>
+
+  <div class="container">
+    <h2>Edit Recipe</h2>
+
+    <form id="editRecipeForm">
+      <input id="eName" placeholder="Recipe name" required>
+
+      <textarea id="eDesc" placeholder="Description" required></textarea>
+
+      <textarea id="eInst" placeholder="Instructions" required></textarea>
+
+      <input id="eImg" placeholder="Image URL (optional)">
+
+      <h3 style="margin-top:16px;">Ingredients</h3>
+      <div id="eIngredientsList" class="ingredients-list"></div>
+
+      <div class="recipe-actions" style="margin:10px 0;">
+        <input id="eIngName" placeholder="Ingredient name">
+        <input id="eIngQty" placeholder="Quantity">
+        <button id="eAddIngBtn" type="button" class="btn btn-outline">
+          Add ingredient
+        </button>
+      </div>
+
+      <button type="submit" class="btn">Save</button>
+    </form>
+  </div>
+</body>
+</html>

@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Add Recipe</title>
+
+  <link rel="stylesheet" href="style.css">
+
+  <!-- CSP-safe scripts -->
+  <script src="script.js" defer></script>
+  <script src="add_recipe.bind.js" defer></script>
+  <script src="navbarLoader.js" defer></script>
+</head>
+
+<body>
+  <div id="navbar"></div>
+
+  <div class="container">
+    <h2>Add Recipe</h2>
+
+    <form id="addRecipeForm">
+      <input id="rName" placeholder="Recipe name" required>
+      <textarea id="rDesc" placeholder="Description" required></textarea>
+      <textarea id="rInst" placeholder="Instructions" required></textarea>
+      <input id="rImg" placeholder="Image URL (optional)">
+
+      <h3 style="margin-top:16px;">Ingredients</h3>
+      <div id="ingredientsList" class="ingredients-list"></div>
+
+      <div class="recipe-actions" style="margin:10px 0;">
+        <input id="ingName" placeholder="Ingredient name">
+        <input id="ingQty" placeholder="Quantity">
+        <button id="addIngBtn" type="button" class="btn btn-outline">
+          Add ingredient
+        </button>
+      </div>
+
+      <button type="submit" class="btn" style="margin-top:12px;">
+        Add Recipe
+      </button>
+    </form>
+  </div>
+</body>
+</html>
