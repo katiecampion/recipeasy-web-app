@@ -43,7 +43,7 @@ ENVIRONMENT CONFIGURATION
 The .env file is not included in the submission.
 
 Create a file named .env in the project root directory and add the following
-environment variables (i provided my api key):
+environment variables:
 
 DB_HOST=localhost
 DB_USER=your_mysql_username
